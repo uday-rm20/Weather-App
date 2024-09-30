@@ -15,9 +15,15 @@
     box-sizing: border-box;
 }
 
+
+
 body{
     min-height: 100vh;
-    background-color: var(--bg-color1);
+    background-color: lightblue;
+    background-image: url('pic.jpg'); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
     color: #fff;
     font-family: sans-serif;
     padding: 0 15px;
@@ -29,19 +35,23 @@ hr{
 .header{
     position: sticky;
     top: 0;
-    background-color: var(--bg-color1);
+    background-color: lightblue;
+    background-image: url('pic.jpg'); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
     padding: 15px 0;
     & #city_input{
-        background-color: var(--bg-color2);
+        background-color:yellow;
         border: none;
         padding: 12px;
         font-size: 16px;
         border-radius: 25px;
-        color: #fff;
+        color:purple;
         & :focus{
             outline: none;
         }
@@ -51,7 +61,7 @@ hr{
         font-size: 16px;
         padding: 12px;
         border-radius: 25px;
-        background-color: #fff;
+        background-color:orangered;
         cursor: pointer;
     }
     & #locationbtn{
@@ -61,6 +71,13 @@ hr{
         border-radius: 25px;
         background-color: orangered;
         cursor: pointer;
+    }
+    & h2{
+        color: black;
+        font-size: 50px;
+    }
+    & h2:hover{
+        color: lightsalmon;
     }
 }
 
@@ -77,11 +94,11 @@ hr{
     color: #333;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-top: 10px; /* Adjusts the space above the dropdown */
-    margin-bottom: 15px; /* Adjusts the space below the dropdown */
+    margin-top: 10px; 
+    margin-bottom: 15px; 
 }
 
-/* Styling the search bar */
+
 #city_input {
     width: 100%;
     max-width: 300px;
@@ -89,10 +106,10 @@ hr{
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    margin-bottom: 15px; /* Space between search bar and other elements */
+    margin-bottom: 15px; 
 }
 
-/* Style for the location button */
+
 #locationbtn {
     padding: 10px 20px;
     font-size: 16px;
@@ -101,8 +118,8 @@ hr{
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    margin-top: 15px; /* Space between location button and other elements */
-    margin-bottom: 15px; /* Space below location button */
+    margin-top: 15px; 
+    margin-bottom: 15px; 
 }
 
 #locationbtn:hover {
@@ -110,7 +127,7 @@ hr{
 }
 
 .card{
-    background-color: var(--bg-color2);
+    background-color:purple;
     padding: 15px;
     border-radius: 15px;
     margin-bottom: 15px;
@@ -233,8 +250,16 @@ hr{
                 text-align: center;
             }
         }
+        & #imp{
+            color: black;
+        }
+        & #imp2{
+            color: black;
+        }
     }
 }
+
+/*Responsive Design*/
 
 @media(max-width: 1100px){
     .weather-data{
@@ -349,7 +374,7 @@ hr{
         grid-template-columns: repeat(2, 1fr);
     }
 }
-/* For mobile responsiveness */
+
 @media screen and (max-width: 600px) {
     #recentCitiesDropdown, #city_input, #locationbtn {
         width: 100%;

@@ -1,29 +1,29 @@
 let cityInput = document.getElementById('city_input');
 let searchBtn = document.getElementById('searchbtn');
 locationBtn = document.getElementById('locationbtn');
-const api_key = '2c2a9bf7cfea4189bd5f2c6fee10f43b';
+const api_key = '2c2a9bf7cfea4189bd5f2c6fee10f43b'; /* API key from openweathermap.org */
 let recentCitiesDropdown = document.getElementById('recentCitiesDropdown');
 
-// Function to add city to recent searches
+/*Function to add city to recent searches*/
 function addRecentCity(cityName) {
     let recentCities = JSON.parse(localStorage.getItem('recentCities')) || [];
 
-    // Check if city is already in the recent list
+    /*Check if city is already in the recent list*/
     if (!recentCities.includes(cityName)) {
         recentCities.push(cityName);
-        // Save updated cities in localStorage
+        /*Save updated cities in localStorage*/
         localStorage.setItem('recentCities', JSON.stringify(recentCities));
     }
 
     updateDropdown(recentCities);
 }
 
-// Function to update the dropdown with recent cities
+/*Function to update the dropdown with recent cities*/
 function updateDropdown(cities) {
-    // Show the dropdown if there are any recent cities
+    /*Show the dropdown if there are any recent cities*/
     if (cities.length > 0) {
         recentCitiesDropdown.style.display = 'block';
-        recentCitiesDropdown.innerHTML = '<option value="">Select a recently searched city</option>'; // Reset dropdown options
+        recentCitiesDropdown.innerHTML = '<option value="">Select a recently searched city</option>';
 
         cities.forEach(city => {
             let option = document.createElement('option');
@@ -32,14 +32,14 @@ function updateDropdown(cities) {
             recentCitiesDropdown.appendChild(option);
         });
     } else {
-        recentCitiesDropdown.style.display = 'none'; // Hide if no cities
+        recentCitiesDropdown.style.display = 'none'; /*Hide the dropdown menu  if no cities are searched*/
     }
 }
 
 
-// Declare currentweatherCard and fiveDaysForecastCard
+/* Declare currentweatherCard and fiveDaysForecastCard*/
 let currentweatherCard = document.querySelectorAll('.weather-left .card')[0],
-    fiveDaysForecastCard = document.querySelectorAll('.day-forecast')[0], // Assuming first element is targeted
+    fiveDaysForecastCard = document.querySelectorAll('.day-forecast')[0], 
     aqiCard = document.querySelectorAll('.highlights .card')[0],
     sunriseCard = document.querySelectorAll('.highlights .card')[1],
     humidityVal = document.getElementById('humidityVal'),
@@ -47,12 +47,12 @@ let currentweatherCard = document.querySelectorAll('.weather-left .card')[0],
     visibilityVal = document.getElementById('visibilityVal'),
     windspeedVal = document.getElementById('windspeedVal'),
     feelsVal = document.getElementById('feelsVal'),
-    hourlyForecastCard = document.querySelector('.hourly-forecast'), // Corrected to select single element
+    hourlyForecastCard = document.querySelector('.hourly-forecast'),
     aqiList = ['Good', 'Fair', 'Moderate', 'Poor', 'Very Poor'];
 
 function getWeatherDetails(name, lat, lon, country) { 
-    addRecentCity(name);// Removed unused state parameter
-    let FORECAST_API_URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${api_key}`,
+    addRecentCity(name);
+    let FORECAST_API_URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${api_key}`,/* URL from openweathermap.org for fetching weather and pollution details */
         WEATHER_API_URL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${api_key}`,
         AIR_POLLUTION_API_URL = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${api_key}`,
         days = [
@@ -62,7 +62,7 @@ function getWeatherDetails(name, lat, lon, country) {
             'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
         ];
 
-    // Fetch air pollution data
+    /*Fetching air pollution data*/
     fetch(AIR_POLLUTION_API_URL).then(res => res.json()).then(data => {
         if (data.list && data.list[0].main) {
             let { co, no, no2, o3, so2, pm2_5, pm10, nh3 } = data.list[0].components;
@@ -111,10 +111,10 @@ function getWeatherDetails(name, lat, lon, country) {
             alert('Air Quality Index data is not available.');
         }
     }).catch(() => {
-        alert('Failed to fetch Air Quality Index');
+        alert('Failed to fetch Air Quality Index'); /* Catch keyword is used for Error handling in case of problem while fetching data */
     });
 
-    // Fetch current weather
+    /*Fetching current weather*/
     fetch(WEATHER_API_URL).then(res => res.json()).then(data => {
         let date = new Date();
         currentweatherCard.innerHTML = `
@@ -174,15 +174,15 @@ function getWeatherDetails(name, lat, lon, country) {
         windspeedVal.innerHTML = `${speed}m/s`;
         feelsVal.innerHTML = `${(feels_like - 273.15).toFixed(2)}&deg;C`;
     }).catch(() => {
-        alert('Failed to fetch current weather');
+        alert('Failed to fetch current weather');/* Catch keyword is used for Error handling in case of problem while fetching data */
     });
 
-    // Fetch 5-day weather forecast
+    /*Fetching  5-day weather forecast*/
     fetch(FORECAST_API_URL).then(res => res.json()).then(data => {
         let hourlyForecast = data.list;
         hourlyForecastCard.innerHTML = '';
         
-        // Loop to get hourly forecast
+        /* fetching hourly forecast of the present day */
         for (let i = 0; i < Math.min(7, hourlyForecast.length); i++) {
             let hrForecastDate = new Date(hourlyForecast[i].dt_txt);
             let hr = hrForecastDate.getHours();
@@ -205,15 +205,15 @@ function getWeatherDetails(name, lat, lon, country) {
             let forecastDate = new Date(forecast.dt_txt).getDate();
             if (!uniqueForecastDays.includes(forecastDate)) {
                 uniqueForecastDays.push(forecastDate);
-                return true; // Include this forecast
+                return true; 
             }
-            return false; // Exclude this forecast
+            return false; 
         });
 
-        // Clear the previous forecast
+        /*Clear the previous forecast*/
         fiveDaysForecastCard.innerHTML = '';
         
-        // Loop through the forecast data
+        /*Loop through the forecast data*/
         for (let i = 0; i < fiveDaysForecast.length; i++) {
             let date = new Date(fiveDaysForecast[i].dt_txt);
             fiveDaysForecastCard.innerHTML += `
@@ -228,7 +228,7 @@ function getWeatherDetails(name, lat, lon, country) {
             `;
         }
     }).catch(() => {
-        alert('Failed to fetch 5-day forecast');
+        alert('Failed to fetch 5-day forecast');/* Catch keyword is used for Error handling in case of problem while fetching data */
     });
 }
 
@@ -241,15 +241,16 @@ function getUserCoordinates(){
             let {name, country, state} = data[0];
             getWeatherDetails(name, latitude, longitude, country, state);
         }).catch(() => {
-            alert('Failed to fetch user coordinates');
+            alert('Failed to fetch user coordinates');/* Catch keyword is used for Error handling in case of problem while fetching data */
         });
     }, error => {
         if(error.code === error.PERMISSION_DENIED){
-            alert('Geolocation permission denied. Please reset location permission to grant access again');
+            alert('Geolocation permission denied. Please reset location permission to grant access again');/* Catch keyword is used for Error handling in case of problem while fetching data */
         }
     });
 }
 
+/* using Eventlistener for both search and current location button */
 searchBtn.addEventListener('click', () => {
     let cityName = cityInput.value;
     let API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${api_key}`;
@@ -263,10 +264,12 @@ searchBtn.addEventListener('click', () => {
         let { name, coord, sys } = data;
         getWeatherDetails(name, coord.lat, coord.lon, sys.country);
     }).catch(() => {
-        alert('Failed to fetch the city weather data');
+        alert('Failed to fetch the city weather data');/* Catch keyword is used for Error handling in case of problem while fetching data */
     });
 });
 
+
+/* using Eventlistener for both search and current location button */
 recentCitiesDropdown.addEventListener('change', function() {
     let cityName = recentCitiesDropdown.value;
     
@@ -282,11 +285,13 @@ recentCitiesDropdown.addEventListener('change', function() {
             let { name, coord, sys } = data;
             getWeatherDetails(name, coord.lat, coord.lon, sys.country);
         }).catch(() => {
-            alert('Failed to fetch the city weather data');
+            alert('Failed to fetch the city weather data');/* Catch keyword is used for Error handling in case of problem while fetching data */
         });
     }
 });
 
+
+/* using Eventlistener for both search and current location button */
 locationBtn.addEventListener('click', getUserCoordinates);
 cityInput.addEventListener('keyup', e => e.key === 'Enter' && getCityCoordinates);
-/**window.addEventListener('load', getUserCoordinates)*/
+
