@@ -1,7 +1,7 @@
 let cityInput = document.getElementById('city_input');
 let searchBtn = document.getElementById('searchbtn');
 locationBtn = document.getElementById('locationbtn');
-const api_key = '2c2a9bf7cfea4189bd5f2c6fee10f43b'; /* API key from openweathermap.org */
+const api_key = '#'; /* API key from openweathermap.org */
 let recentCitiesDropdown = document.getElementById('recentCitiesDropdown');
 
 /*Function to add city to recent searches*/
